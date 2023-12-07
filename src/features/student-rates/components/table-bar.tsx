@@ -96,42 +96,37 @@ const TableBar = () => {
               <>
                 <ModalHeader className="flex flex-col gap-1">Додавання студента</ModalHeader>
                 <ModalBody>
-                  <form id="student_creating">
-                    <Input
-                      id="surname"
-                      form="student_creating"
-                      required
-                      autoFocus
-                      label="Прізвище"
-                      placeholder="Введіть прізвище студента"
-                      variant="bordered"
-                      ref={surnameRef}
-                    />
-                    <Input
-                      id="name"
-                      form="student_creating"
-                      required
-                      label="Імʼя"
-                      placeholder="Введіть імʼя студента"
-                      variant="bordered"
-                      ref={nameRef}
-                    />
-                    <Input
-                      id="middle_name"
-                      form="student_creating"
-                      required
-                      label="По-батькові"
-                      placeholder="Введіть по-батькові студента"
-                      variant="bordered"
-                      ref={middleNameRef}
-                    />
-                  </form>
+                  <Input
+                    id="surname"
+                    required
+                    autoFocus
+                    label="Прізвище"
+                    placeholder="Введіть прізвище студента"
+                    variant="bordered"
+                    ref={surnameRef}
+                  />
+                  <Input
+                    id="name"
+                    required
+                    label="Імʼя"
+                    placeholder="Введіть імʼя студента"
+                    variant="bordered"
+                    ref={nameRef}
+                  />
+                  <Input
+                    id="middle_name"
+                    required
+                    label="По-батькові"
+                    placeholder="Введіть по-батькові студента"
+                    variant="bordered"
+                    ref={middleNameRef}
+                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="flat" onPress={onClose}>
                     Закрити
                   </Button>
-                  <Button form="student_creating" color="primary" onPress={onAddStudent}>
+                  <Button color="primary" onPress={onAddStudent}>
                     Додати
                   </Button>
                 </ModalFooter>

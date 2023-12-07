@@ -11,7 +11,19 @@ export const CREATE_STUDENT = {
   route: '/student',
   method: 'POST'
 };
+export const UPDATE_STUDENT = {
+  route: '/student',
+  method: 'PUT'
+};
 export const DELETE_STUDENT = {
   route: '/student',
   method: 'DELETE'
 };
+export const ADD_STUDENT_GRADE = {
+  route: '/grade',
+  method: 'POST'
+};
+export const UPDATE_STUDENT_GRADE = {
+  route: '/grade',
+  method: 'PUT'
+}
