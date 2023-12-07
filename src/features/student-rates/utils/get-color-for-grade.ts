@@ -1,6 +1,6 @@
 import {ChipProps} from "@nextui-org/react";
 
-export const getColorForGrade = (grade: number): ChipProps["color"] => {
+export const getColorForGrade = (grade: number | null): ChipProps["color"] => {
   const gradeColorConfig = {
     success: [10, 11, 12],
     primary: [7, 8, 9],

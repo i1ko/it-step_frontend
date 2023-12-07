@@ -14,7 +14,7 @@ import { SearchIcon } from "./icons/search-icon";
 import { PlusIcon } from "./icons/plus-icon";
 import {fetchJson, HttpMethod} from "../../../lib/fetch";
 import {CREATE_STUDENT} from "../data/constants";
-import {StudentI} from "../types";
+import {CreateStudentResponseI} from "../types";
 
 const TableBar = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -46,7 +46,7 @@ const TableBar = () => {
 
     (async () => {
       try {
-        const res: any = await fetchJson<StudentI[]>(CREATE_STUDENT.route, {
+        const res = await fetchJson<CreateStudentResponseI>(CREATE_STUDENT.route, {
           method: CREATE_STUDENT.method as HttpMethod,
           body: {
             name: nameValue,

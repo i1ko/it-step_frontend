@@ -8,5 +8,13 @@ export interface StudentI {
   name: string;
   middle_name: string;
   surname: string;
-  mean_grade: number;
+  mean_grade: number | null;
+}
+
+export interface CreateStudentResponseI {
+  id: number;
+  success: boolean;
+}
+export interface DeleteStudentResponseI {
+  success: boolean;
 }

@@ -11,3 +11,7 @@ export const CREATE_STUDENT = {
   route: '/student',
   method: 'POST'
 };
+export const DELETE_STUDENT = {
+  route: '/student',
+  method: 'DELETE'
+};

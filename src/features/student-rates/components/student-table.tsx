@@ -10,29 +10,52 @@ import {
   Chip,
   Tooltip
 } from "@nextui-org/react";
-import { columns, GET_STUDENTS } from "../data/constants";
-import { fetchJson } from "../../../lib/fetch";
+import toast from "react-hot-toast";
+import {fetchJson, HttpMethod} from "../../../lib/fetch";
 import {PlusIcon} from "./icons/plus-icon";
 import {getColorForGrade} from "../utils/get-color-for-grade";
 import {EditIcon} from "./icons/edit-icon";
 import {DeleteIcon} from "./icons/delete-icon";
-import {StudentI} from "../types";
+import {columns, DELETE_STUDENT} from "../data/constants";
+import {DeleteStudentResponseI, StudentI} from "../types";
+import {getAllStudents} from "../api/requests";
 
 const StudentTable: React.FC = () => {
   const [students, setStudents] = useState<StudentI[]>([]);
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchStudents = async () => {
       try {
-        const res = await fetchJson<StudentI[]>(GET_STUDENTS.route);
-        setStudents(res);
+        const students = await getAllStudents();
+        setStudents(students);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching students:', error);
       }
     };
 
-    fetchData();
+    fetchStudents();
   }, []);
+
+
+  const onDeleteStudent = async (id: number) => {
+    try {
+      const res = await fetchJson<DeleteStudentResponseI>(
+        DELETE_STUDENT.route + '/' + id,
+        {
+          method: DELETE_STUDENT.method as HttpMethod
+        }
+      );
+      // setStudents(res);
+      if (res?.success) {
+        toast.success(`Інформацію про студента з ІД ${id} успішно видалено`);
+        getAllStudents();
+      } else {
+        toast.error(`Інформацію про студента з ІД ${id} не вдалось видалити. Перевірте консоль`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error(`Інформацію про студента з ІД ${id} не вдалось видалити. Перевірте консоль`);
+    }
+  }
 
   return (
     students?.length > 0
@@ -44,20 +67,21 @@ const StudentTable: React.FC = () => {
           ))}
         </TableHeader>
         <TableBody>
-          {students.map((student) => (
+          {students.map((student: StudentI) => (
             <TableRow key={student.id}>
               <TableCell>{`${student.surname} ${student.name} ${student.middle_name}`}</TableCell>
               <TableCell>
                 <Chip className="capitalize" color={getColorForGrade(student.mean_grade)} size="sm" variant="flat">
-                  {student.mean_grade}
+                  {student?.mean_grade
+                    ? student.mean_grade
+                    : 'Немає'
+                  }
                 </Chip>
               </TableCell>
               <TableCell className="flex justify-end">
-                {/*<div>*/}
-                  <Button isIconOnly variant="light" className="text-[#006FEE]">
-                    <PlusIcon />
-                  </Button>
-                {/*</div>*/}
+                <Button isIconOnly variant="light" className="text-[#006FEE]">
+                  <PlusIcon />
+                </Button>
               </TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-[8px]">
@@ -70,7 +94,7 @@ const StudentTable: React.FC = () => {
                   </Tooltip>
                   <Tooltip color="danger" content="Видалити користувача">
                     <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                      <Button isIconOnly variant="light" color="danger">
+                      <Button isIconOnly variant="light" color="danger" onPress={() => onDeleteStudent(student.id)}>
                         <DeleteIcon />
                       </Button>
                     </span>
