@@ -1,5 +1,6 @@
 import React from 'react';
 import {Toaster} from "react-hot-toast";
+import {StudentsProvider} from "./features/student-rates/context/students-context";
 import Navbar from "./features/navbar/components/navbar";
 import {StudentTableComponent, TableBarComponent} from "./features/student-rates";
 
@@ -8,8 +9,10 @@ function App() {
     <div className="w-full h-full bg-[#f7fcff] flex justify-center">
       <div className="w-[960px] flex flex-col">
         <Navbar />
-        <TableBarComponent />
-        <StudentTableComponent />
+        <StudentsProvider>
+          <TableBarComponent />
+          <StudentTableComponent />
+        </StudentsProvider>
         <Toaster />
       </div>
     </div>

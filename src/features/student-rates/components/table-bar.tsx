@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useCallback} from "react";
 import {
   Button,
   Input,
@@ -15,19 +15,23 @@ import { PlusIcon } from "./icons/plus-icon";
 import {fetchJson, HttpMethod} from "../../../lib/fetch";
 import {CREATE_STUDENT} from "../data/constants";
 import {CreateStudentResponseI} from "../types";
+import {useStudentsContext} from "../context/students-context";
+import {getAllStudents} from "../api/requests";
 
 const TableBar = () => {
+  const { setStudentsList } = useStudentsContext();
+
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [filterValue, setFilterValue] = useState("");
   const surnameRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const middleNameRef = useRef<HTMLInputElement>(null);
 
-  const onClear = React.useCallback(() => {
+  const onClear = useCallback(() => {
     setFilterValue("");
   }, []);
 
-  const onSearchChange = React.useCallback((value?: string) => {
+  const onSearchChange = useCallback((value?: string) => {
     if (value) {
       setFilterValue(value);
     } else {
@@ -55,7 +59,8 @@ const TableBar = () => {
           }
         });
         if (res?.success) {
-          toast.success(`Студент з ІД ${res?.id} створено`)
+          toast.success(`Студент з ІД ${res?.id} створено`);
+          getAllStudents(setStudentsList);
           return;
         } else {
           console.error(res);

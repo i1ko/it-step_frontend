@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -19,14 +19,15 @@ import {DeleteIcon} from "./icons/delete-icon";
 import {columns, DELETE_STUDENT} from "../data/constants";
 import {DeleteStudentResponseI, StudentI} from "../types";
 import {getAllStudents} from "../api/requests";
+import {useStudentsContext} from "../context/students-context";
 
 const StudentTable: React.FC = () => {
-  const [students, setStudents] = useState<StudentI[]>([]);
+  const { studentsList, setStudentsList } = useStudentsContext();
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const students = await getAllStudents();
-        setStudents(students);
+        await getAllStudents(setStudentsList);
       } catch (error) {
         console.error('Error fetching students:', error);
       }
@@ -47,7 +48,7 @@ const StudentTable: React.FC = () => {
       // setStudents(res);
       if (res?.success) {
         toast.success(`Інформацію про студента з ІД ${id} успішно видалено`);
-        getAllStudents();
+        getAllStudents(setStudentsList);
       } else {
         toast.error(`Інформацію про студента з ІД ${id} не вдалось видалити. Перевірте консоль`);
       }
@@ -58,7 +59,7 @@ const StudentTable: React.FC = () => {
   }
 
   return (
-    students?.length > 0
+    studentsList?.length > 0
       ? <Table isHeaderSticky isStriped aria-label="Example static collection table">
         <TableHeader>
           {columns.map((column, index) => (
@@ -67,7 +68,7 @@ const StudentTable: React.FC = () => {
           ))}
         </TableHeader>
         <TableBody>
-          {students.map((student: StudentI) => (
+          {studentsList.map((student: StudentI) => (
             <TableRow key={student.id}>
               <TableCell>{`${student.surname} ${student.name} ${student.middle_name}`}</TableCell>
               <TableCell>

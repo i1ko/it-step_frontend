@@ -1,12 +1,11 @@
-import { fetchJson } from '../../../lib/fetch';
-import { GET_STUDENTS } from '../data/constants';
-import { StudentI } from '../types';
+import {fetchJson} from "../../../lib/fetch";
+import {StudentI} from "../types";
+import {GET_STUDENTS} from "../data/constants";
 
-export const getAllStudents = async (): Promise<StudentI[]> => {
+export const getAllStudents = async (setStudentsList: (newState: StudentI[]) => void): Promise<void> => {
   try {
     const res = await fetchJson<StudentI[]>(GET_STUDENTS.route);
-    console.log(res);
-    return res;
+    setStudentsList(res);
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
