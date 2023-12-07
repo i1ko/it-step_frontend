@@ -1,4 +1,5 @@
 import React from 'react';
+import {Toaster} from "react-hot-toast";
 import Navbar from "./features/navbar/components/navbar";
 import {StudentTableComponent, TableBarComponent} from "./features/student-rates";
 
@@ -9,6 +10,7 @@ function App() {
         <Navbar />
         <TableBarComponent />
         <StudentTableComponent />
+        <Toaster />
       </div>
     </div>
   );

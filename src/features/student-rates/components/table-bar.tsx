@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef} from "react";
 import {
   Button,
   Input,
@@ -9,6 +9,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import toast from "react-hot-toast";
 import { SearchIcon } from "./icons/search-icon";
 import { PlusIcon } from "./icons/plus-icon";
 import {fetchJson, HttpMethod} from "../../../lib/fetch";
@@ -39,29 +40,30 @@ const TableBar = () => {
     const nameValue = nameRef.current?.value || "";
     const middleNameValue = middleNameRef.current?.value || "";
 
-    // const formdata = new FormData();
-    // formdata.append("name", nameValue);
-    // formdata.append("surname", surnameValue);
-    // formdata.append("middle_name", middleNameValue);
-
     console.log("Surname:", surnameValue);
     console.log("Name:", nameValue);
     console.log("Middle Name:", middleNameValue);
 
     (async () => {
       try {
-        const res = await fetchJson<StudentI[]>(CREATE_STUDENT.route, {
+        const res: any = await fetchJson<StudentI[]>(CREATE_STUDENT.route, {
           method: CREATE_STUDENT.method as HttpMethod,
-          body: JSON.stringify({
+          body: {
             name: nameValue,
             surname: surnameValue,
             middle_name: middleNameValue
-          })
-          // body: formdata
+          }
         });
-        console.log(res);
+        if (res?.success) {
+          toast.success(`Студент з ІД ${res?.id} створено`)
+          return;
+        } else {
+          console.error(res);
+          toast.error('Щось пішло не так. Подивіться консоль для отримання інформації про помилку');
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
+        toast.error('Щось пішло не так. Подивіться консоль для отримання інформації про помилку');
       }
     })();
 
