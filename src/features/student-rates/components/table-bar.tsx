@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import {
   Button,
   Input,
@@ -11,6 +11,9 @@ import {
 } from "@nextui-org/react";
 import { SearchIcon } from "./icons/search-icon";
 import { PlusIcon } from "./icons/plus-icon";
+import {fetchJson, HttpMethod} from "../../../lib/fetch";
+import {CREATE_STUDENT} from "../data/constants";
+import {StudentI} from "../types";
 
 const TableBar = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -36,9 +39,31 @@ const TableBar = () => {
     const nameValue = nameRef.current?.value || "";
     const middleNameValue = middleNameRef.current?.value || "";
 
+    // const formdata = new FormData();
+    // formdata.append("name", nameValue);
+    // formdata.append("surname", surnameValue);
+    // formdata.append("middle_name", middleNameValue);
+
     console.log("Surname:", surnameValue);
     console.log("Name:", nameValue);
     console.log("Middle Name:", middleNameValue);
+
+    (async () => {
+      try {
+        const res = await fetchJson<StudentI[]>(CREATE_STUDENT.route, {
+          method: CREATE_STUDENT.method as HttpMethod,
+          body: JSON.stringify({
+            name: nameValue,
+            surname: surnameValue,
+            middle_name: middleNameValue
+          })
+          // body: formdata
+        });
+        console.log(res);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    })();
 
     onClose();
   };

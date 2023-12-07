@@ -4,4 +4,10 @@ export const columns = [
   {name: "Додати оцінку", uid: "addGrade"},
   {name: "Дії", uid: "actions"},
 ];
-export const GET_STUDENTS_ROUTE = '/student_grades';
+export const GET_STUDENTS = {
+  route: '/student_grades'
+};
+export const CREATE_STUDENT = {
+  route: '/student',
+  method: 'POST'
+};

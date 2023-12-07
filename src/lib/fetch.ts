@@ -1,4 +1,4 @@
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
   method?: HttpMethod;
@@ -19,9 +19,9 @@ async function fetchJson<T>(url: string, options?: FetchOptions): Promise<T> {
       body: options?.body instanceof FormData ? options.body : JSON.stringify(options?.body),
     });
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Request failed with status ${response.status}`);
+    // }
 
     const data = await response.json();
     return data;

@@ -10,7 +10,7 @@ import {
   Chip,
   Tooltip
 } from "@nextui-org/react";
-import { columns, GET_STUDENTS_ROUTE } from "../data/constants";
+import { columns, GET_STUDENTS } from "../data/constants";
 import { fetchJson } from "../../../lib/fetch";
 import {PlusIcon} from "./icons/plus-icon";
 import {getColorForGrade} from "../utils/get-color-for-grade";
@@ -24,7 +24,7 @@ const StudentTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetchJson<StudentI[]>(GET_STUDENTS_ROUTE);
+        const res = await fetchJson<StudentI[]>(GET_STUDENTS.route);
         setStudents(res);
       } catch (error) {
         console.error("Error fetching data:", error);
